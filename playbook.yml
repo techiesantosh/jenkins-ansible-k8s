@@ -1,0 +1,19 @@
+---
+- name: Ansible k8s
+  hosts: k8shost
+  become: yes   # Using Remote user as ubuntu
+  tasks:
+
+    - name: copying deploymenment yaml
+      become: true
+      copy:
+        src: /var/lib/jenkins/workspace/ansible-k8s-pipeline/k8s/lti-designs-deploy.yaml
+        dest: /tmp/lti-designs-deploy.yaml
+
+    - name: copying service yaml
+      become: true
+      copy:
+        src: /var/lib/jenkins/workspace/ansible-k8s-pipeline/k8s/lti-designs-deploy.yaml
+        dest: /tmp/lti-designs-service.yaml
+
+

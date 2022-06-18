@@ -1,0 +1,37 @@
+---
+- name: Ansible k8s module example
+  hosts: k8s-server
+  remote_user: ubuntu   # Using Remote user as ubuntu
+  tasks:
+    - name: Create a k8s namespace
+      k8s:
+        name: lti-devops-ns # defining the namespace
+        api_version: v1
+        kind: Namespace
+        state: present    
+
+    - name: copying deploymenment yaml
+      become: true
+      copy:
+        src: /var/lib/jenkins/workspace/ansible-k8s-pipeline/k8s/lti-designs-deploy.yaml
+        dest: /tmp/lti-designs-deploy.yaml
+
+    - name: copying service yaml
+      become: true
+      copy:
+        src: /var/lib/jenkins/workspace/ansible-k8s-pipeline/k8s/lti-designs-deploy.yaml
+        dest: /tmp/lti-designs-service.yaml
+
+
+    - name: Create a deployment
+      k8s:
+        state: present           
+        namespace: lti-devops-ns 
+        src: /tmp/lti-designs-deploy.yaml  
+
+    - name: Create a service
+      k8s:
+        state: present            
+        namespace: lti-devops-ns
+        src: /tmp/lti-designs-service.yaml
+

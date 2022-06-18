@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lti-marketplace
+  labels:
+    app: lti-marketplace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app:lti-marketplace
+  template:
+    metadata:
+      labels:
+        app: lti-marketplace
+    spec:
+      imagePullSecrets:
+      - name: my-registry-key
+      containers:
+      - name: lti-marketplace
+        image: docker-repo-local/lti-marketplace 
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8089
